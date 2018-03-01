@@ -9,11 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.mausoft.common.model.DefaultSearchCriteria;
@@ -73,12 +71,12 @@ public class ExchangeInversionManagerServiceTest {
 		buyTransaction.setSourceAmount(buySourceAmount);
 		buyTransaction.setTransactionFee(transactionFee);
 		buyTransaction.setExchangeRate(exchangeRate);
-		buyTransaction.setSymbol(bitcoinSymbol);
+		buyTransaction.setSymbol("BTC");
 		
 		sellTransaction.setTransactionFee(transactionFee);
 		sellTransaction.setExchangeRate(exchangeRate);
 		sellTransaction.setTargetAmount(sellTargetAmount);
-		sellTransaction.setSymbol(bitcoinSymbol);
+		sellTransaction.setSymbol("BTC");
 		
 		for (int x = 0; x < DEFAULT_TOTAL_RESULTS; x++) {
 			ExchangeTransaction exchangeTransaction = new ExchangeTransaction();
@@ -88,7 +86,7 @@ public class ExchangeInversionManagerServiceTest {
 			exchangeTransaction.setExchangeRate(new BigDecimal(20D));
 			exchangeTransaction.setTargetAmount(exchangeTransaction.getSourceAmount().subtract(exchangeTransaction.getTransactionFee().divide(exchangeTransaction.getExchangeRate(), 5, RoundingMode.HALF_EVEN)));
 			exchangeTransaction.setTransactionType(TransactionType.BUY);
-			exchangeTransaction.setSymbol(bitcoinSymbol);
+			exchangeTransaction.setSymbol("BTC");
 			
 			preLoadedTransaction = exchangeTransactionRepository.saveAndFlush(exchangeTransaction);
 		}

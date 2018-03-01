@@ -16,6 +16,7 @@ import com.mausoft.common.model.DefaultSearchCriteria;
 import com.mausoft.common.model.KeyValue;
 import com.mausoft.common.model.PaginationResult;
 import com.mausoft.common.model.PaginationSearch;
+import com.mausoft.common.service.ISpringSecurityService;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction.TransactionType;
 import com.mausoft.inv.mgr.entity.projection.ExchangeInversionSummary;
@@ -26,10 +27,13 @@ import com.mausoft.inv.mgr.service.IExchangeInversionManagerService;
 public class ExchangeInversionManagerService implements IExchangeInversionManagerService {
 	
 	@Autowired
+	private ISpringSecurityService springSecurityService;
+	
+	@Autowired
 	protected IExchangeTransactionRepository exchangeTransactionRepository;
 	
 	public ExchangeTransaction getTransaction(long id) {
-		return exchangeTransactionRepository.findOne(id);
+		return exchangeTransactionRepository.findByIdAndCreatedBy(id, springSecurityService.getCurrentUser());
 	}
 	
 	@Override
@@ -95,6 +99,8 @@ public class ExchangeInversionManagerService implements IExchangeInversionManage
 	}
 	
 	public <T extends DefaultSearchCriteria> PaginationResult<ExchangeTransaction> search(PaginationSearch<T> paginationSearch){
+		paginationSearch.getSearchCriteria().setCreatedBy(springSecurityService.getCurrentUser());
+		
 		return exchangeTransactionRepository.search(paginationSearch);
 	}
 	
@@ -122,7 +128,7 @@ public class ExchangeInversionManagerService implements IExchangeInversionManage
 		List<ExchangeInversionSummary> transactionsSummary = null;
 		List<ExchangeInversionSummary> results = null;
 		
-		if (!CollectionUtils.isEmpty(transactionsSummary = exchangeTransactionRepository.getExchangeInversionSummary())) {
+		if (!CollectionUtils.isEmpty(transactionsSummary = exchangeTransactionRepository.getExchangeInversionSummary(springSecurityService.getCurrentUser()))) {
 			exchangeSymbols = transactionsSummary.stream().map(e -> e.getExchangeSymbol()).distinct().collect(Collectors.toList());
 			results = new ArrayList<>(exchangeSymbols.size());
 			

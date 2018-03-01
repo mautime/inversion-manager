@@ -14,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import com.mausoft.common.repository.impl.BaseRepository;
+import com.mausoft.common.service.ISpringSecurityService;
+import com.mausoft.common.service.impl.SpringSecurityService;
 import com.mausoft.inv.mgr.entity.User;
 import com.mausoft.inv.mgr.security.config.ResourceServer;
 import com.mausoft.inv.mgr.util.GlobalParameters;
@@ -26,6 +28,11 @@ public class Application extends SpringBootServletInitializer {
 	
 	public static void main(String... args) {
 		SpringApplication.run(Application.class, args);
+	}
+	
+	@Bean
+	public ISpringSecurityService springSecurityService() {
+		return new SpringSecurityService();
 	}
 	
 	@Bean

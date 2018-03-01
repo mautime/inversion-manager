@@ -4,9 +4,9 @@
                  					
 	<named-native-query name="getExchangeInversionSummary" result-set-mapping="getExchangeInversionSummaryRowMapper">
 		<query>
-			SELECT exs.symbol_code AS 'exchangeSymbol', transaction_type AS 'transactionType', SUM(source_amount) AS 'totalSourceAmount', SUM(target_amount) AS 'totalTargetAmount'  
-			FROM exchange_transaction ext INNER JOIN exchange_symbol exs ON ext.exchange_symbol_id=exs.id
-			GROUP BY exchange_symbol_id, transaction_type;
+			SELECT ext.symbol AS 'exchangeSymbol', transaction_type AS 'transactionType', SUM(source_amount) AS 'totalSourceAmount', SUM(target_amount) AS 'totalTargetAmount'  
+			FROM exchange_transaction ext WHERE 1=1 AND created_by=:createdBy
+			GROUP BY symbol, transaction_type;
 		</query>
 	</named-native-query>
 	<sql-result-set-mapping name="getExchangeInversionSummaryRowMapper">

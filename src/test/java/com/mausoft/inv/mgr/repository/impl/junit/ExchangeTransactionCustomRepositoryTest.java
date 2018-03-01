@@ -49,7 +49,7 @@ public class ExchangeTransactionCustomRepositoryTest {
 			exchangeTransaction.setTransactionFee(new BigDecimal(10D));
 			exchangeTransaction.setExchangeRate(new BigDecimal(20D));
 			exchangeTransaction.setTargetAmount(exchangeTransaction.getSourceAmount().subtract(exchangeTransaction.getTransactionFee().divide(exchangeTransaction.getExchangeRate(), 5, RoundingMode.HALF_EVEN)));
-			exchangeTransaction.setSymbol(exchangeSymbol);
+			exchangeTransaction.setSymbol("BTC");
 			exchangeTransaction.setTransactionType(TransactionType.BUY);
 			
 			entityManager.persistAndFlush(exchangeTransaction);

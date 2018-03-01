@@ -4,6 +4,7 @@ public class DefaultSearchCriteria implements IModel {
 	private static final long serialVersionUID = -5382681585539765382L;
 	
 	private String query;
+	private String createdBy;
 	
 	public DefaultSearchCriteria() {}
 	
@@ -16,5 +17,11 @@ public class DefaultSearchCriteria implements IModel {
 	}
 	public void setQuery(String aQuery) {
 		query = aQuery;
+	}
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String aCreatedBy) {
+		createdBy = aCreatedBy;
 	}
 }

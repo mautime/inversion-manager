@@ -5,7 +5,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.mausoft.common.model.IModel;
+import com.mausoft.common.entity.IEntity;
 
 public abstract class SpecificationsBuilder {
 	
@@ -14,15 +14,15 @@ public abstract class SpecificationsBuilder {
 		return (r, q, c) -> c.equal(c.literal(leftValue), rightValue);
 	}
 	
-	public static final <T extends IModel, V> Specification<T> equal(String propertyName, V value, Class<T> clazz){
+	public static final <T extends IEntity, V> Specification<T> equal(String propertyName, V value, Class<T> clazz){
 		return (r, q, c) -> c.equal(_buildPropertyPath(r, propertyName), value);
 	}
 	
-	public static final <T extends IModel> Specification<T> like(String propertyName, String value, Class<T> clazz){
+	public static final <T extends IEntity> Specification<T> like(String propertyName, String value, Class<T> clazz){
 		return (r, q, c) -> c.like(_buildPropertyPath(r, propertyName), value);
 	}
 	
-	private static final <T extends IModel> Path<String> _buildPropertyPath(Root<T> root, String propertyName){
+	private static final <T extends IEntity> Path<String> _buildPropertyPath(Root<T> root, String propertyName){
 		String[] propertyNameTokens = null;
 		Path<String> propertyPath = null;
 		

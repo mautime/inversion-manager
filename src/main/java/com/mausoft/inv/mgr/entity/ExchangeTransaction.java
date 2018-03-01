@@ -37,9 +37,7 @@ public class ExchangeTransaction extends AbstractDefaultEntity {
 	private BigDecimal transactionFee;
 	@Column(nullable=false)
 	private BigDecimal exchangeRate;
-	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="exchange_symbol_id", nullable=false)
-	private ExchangeSymbol symbol;
+	private String symbol;
 	@Column(nullable=false)
 	@Enumerated(EnumType.STRING)
 	private TransactionType transactionType;
@@ -83,10 +81,10 @@ public class ExchangeTransaction extends AbstractDefaultEntity {
 	public void setExchangeRate(BigDecimal aExchangeRate) {
 		exchangeRate = aExchangeRate;
 	}
-	public ExchangeSymbol getSymbol() {
+	public String getSymbol() {
 		return symbol;
 	}
-	public void setSymbol(ExchangeSymbol aSymbol) {
+	public void setSymbol(String aSymbol) {
 		symbol = aSymbol;
 	}
 	public TransactionType getTransactionType() {
