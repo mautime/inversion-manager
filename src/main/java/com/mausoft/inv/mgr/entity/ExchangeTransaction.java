@@ -12,7 +12,9 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -42,9 +44,17 @@ public class ExchangeTransaction extends AbstractDefaultEntity {
 	@Enumerated(EnumType.STRING)
 	private TransactionType transactionType;
 	private Date transactionDate;
+	@CreatedBy
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="created_by", columnDefinition="VARCHAR")
+	private User createdBy;
 	@CreatedDate
 	@Column(nullable=false, updatable=false)
 	private Date createdDate;
+	@LastModifiedBy
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="last_updated_by")
+	private User lastUpdatedBy;
 	@LastModifiedDate
 	@Column(nullable=false, updatable=false)
 	private Date lastUpdatedDate;
@@ -91,11 +101,23 @@ public class ExchangeTransaction extends AbstractDefaultEntity {
 	public void setTransactionDate(Date aTransactionDate) {
 		transactionDate = aTransactionDate;
 	}
+	public User getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(User aCreatedBy) {
+		createdBy = aCreatedBy;
+	}
 	public Date getCreatedDate() {
 		return createdDate;
 	}
 	public void setCreatedDate(Date aCreatedDate) {
 		createdDate = aCreatedDate;
+	}
+	public User getLastUpdatedBy() {
+		return lastUpdatedBy;
+	}
+	public void setLastUpdatedBy(User aLastUpdatedBy) {
+		lastUpdatedBy = aLastUpdatedBy;
 	}
 	public Date getLastUpdatedDate() {
 		return lastUpdatedDate;

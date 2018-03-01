@@ -33,43 +33,27 @@ public class ExchangeInversionManagerService implements IExchangeInversionManage
 	}
 	
 	@Override
-	public KeyValue<BigDecimal> calculateAmount(BigDecimal sourceAmount, BigDecimal fees, BigDecimal exchangeRate, BigDecimal targetAmount, TransactionType type) {
-		BigDecimal amt = null;
-		BigDecimal fee = null;
-		BigDecimal rate = null;
-		KeyValue<BigDecimal> calculatedAmount = null;
+	public BigDecimal calculateTargetAmount(BigDecimal sourceAmount, BigDecimal fees, BigDecimal exchangeRate, TransactionType type) {
+		BigDecimal result = BigDecimal.ZERO;
+		KeyValue<BigDecimal> keyValue = null;
 		
-		if (type != null) {
-			fee = Optional.ofNullable(fees).orElse(BigDecimal.ZERO);
-			rate = Optional.ofNullable(exchangeRate).orElse(BigDecimal.ONE);
-			
-			switch(type) {
-				case BUY:
-					
-					if (sourceAmount != null) {
-						amt = Optional.ofNullable(sourceAmount).orElse(BigDecimal.ZERO);
-						calculatedAmount = new KeyValue<>("targetAmount", amt.subtract(fee).divide(rate, 8, RoundingMode.HALF_EVEN));
-					} else if (targetAmount != null) {
-						amt = Optional.ofNullable(targetAmount).orElse(BigDecimal.ZERO);
-						calculatedAmount = new KeyValue<>("sourceAmount", amt.setScale(8, RoundingMode.HALF_EVEN).multiply(rate).add(fee).setScale(2, RoundingMode.HALF_EVEN));
-					}
-					
-				break;
-				case SELL:
-					
-					if (targetAmount != null) {
-						amt = Optional.ofNullable(targetAmount).orElse(BigDecimal.ZERO);
-						calculatedAmount = new KeyValue<>("sourceAmount", amt.setScale(8, RoundingMode.HALF_EVEN).multiply(rate).subtract(fee).setScale(2, RoundingMode.HALF_EVEN));
-					} else if (sourceAmount != null) {
-						amt = Optional.ofNullable(sourceAmount).orElse(BigDecimal.ZERO);
-						calculatedAmount = new KeyValue<>("targetAmount", amt.subtract(fee).divide(rate, 8, RoundingMode.HALF_EVEN));
-					}
-					
-				break;
-			}
+		if ((keyValue = _calculateAmount(sourceAmount, fees, exchangeRate, null, type)) != null) {
+			result = keyValue.getValue();
 		}
 		
-		return calculatedAmount;
+		return result;
+	}
+	
+	@Override
+	public BigDecimal calculateSourceAmount(BigDecimal targetAmount, BigDecimal fees, BigDecimal exchangeRate, TransactionType type) {
+		BigDecimal result = BigDecimal.ZERO;
+		KeyValue<BigDecimal> keyValue = null;
+		
+		if ((keyValue = _calculateAmount(null, fees, exchangeRate, targetAmount, type)) != null) {
+			result = keyValue.getValue();
+		}
+		
+		return result;
 	}
 	
 	@Override
@@ -96,14 +80,7 @@ public class ExchangeInversionManagerService implements IExchangeInversionManage
 			exchangeRate = Optional.ofNullable(transaction.getExchangeRate()).orElse(BigDecimal.ONE);
 			targetAmount = Optional.ofNullable(transaction.getTargetAmount()).orElse(BigDecimal.ZERO);
 			
-			switch(transactionType) {
-				case BUY:
-					targetAmount = calculateAmount(sourceAmount, transactionFee, exchangeRate, null, transactionType).getValue();
-				break;
-				case SELL:
-					sourceAmount = calculateAmount(null, transactionFee, exchangeRate, targetAmount, transactionType).getValue();
-				break;
-			}
+			targetAmount = calculateTargetAmount(sourceAmount, transactionFee, exchangeRate, transactionType);
 			
 			transaction.setSourceAmount(sourceAmount);
 			transaction.setTargetAmount(targetAmount);
@@ -174,4 +151,44 @@ public class ExchangeInversionManagerService implements IExchangeInversionManage
 		
 		return results;
 	}
+	
+	private KeyValue<BigDecimal> _calculateAmount(BigDecimal sourceAmount, BigDecimal fees, BigDecimal exchangeRate, BigDecimal targetAmount, TransactionType type) {
+		BigDecimal amt = null;
+		BigDecimal fee = null;
+		BigDecimal rate = null;
+		KeyValue<BigDecimal> calculatedAmount = null;
+		
+		if (type != null) {
+			fee = Optional.ofNullable(fees).orElse(BigDecimal.ZERO);
+			rate = Optional.ofNullable(exchangeRate).orElse(BigDecimal.ONE);
+			
+			switch(type) {
+				case BUY:
+					
+					if (sourceAmount != null) {
+						amt = Optional.ofNullable(sourceAmount).orElse(BigDecimal.ZERO);
+						calculatedAmount = new KeyValue<>("targetAmount", amt.subtract(fee).divide(rate, 8, RoundingMode.HALF_EVEN));
+					} else if (targetAmount != null) {
+						amt = Optional.ofNullable(targetAmount).orElse(BigDecimal.ZERO);
+						calculatedAmount = new KeyValue<>("sourceAmount", amt.setScale(8, RoundingMode.HALF_EVEN).multiply(rate).add(fee).setScale(2, RoundingMode.HALF_EVEN));
+					}
+					
+				break;
+				case SELL:
+					
+					if (targetAmount != null) {
+						amt = Optional.ofNullable(targetAmount).orElse(BigDecimal.ZERO);
+						calculatedAmount = new KeyValue<>("sourceAmount", amt.setScale(8, RoundingMode.HALF_EVEN).multiply(rate).subtract(fee).setScale(2, RoundingMode.HALF_EVEN));
+					} else if (sourceAmount != null) {
+						amt = Optional.ofNullable(sourceAmount).orElse(BigDecimal.ZERO);
+						calculatedAmount = new KeyValue<>("targetAmount", amt.subtract(fee).divide(rate, 8, RoundingMode.HALF_EVEN));
+					}
+					
+				break;
+			}
+		}
+		
+		return calculatedAmount;
+	}
+
 }

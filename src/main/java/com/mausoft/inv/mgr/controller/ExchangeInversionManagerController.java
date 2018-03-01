@@ -68,11 +68,20 @@ public class ExchangeInversionManagerController {
 		return ResponseEntity.ok(ajaxResponse);
 	}
 	
-	@GetMapping(path="/transactions/helper/calculateAmount")
-	public ResponseEntity<IAjaxResponse> calculateAmount(@RequestParam(name="sourceAmount", required=false) BigDecimal sourceAmount, @RequestParam("transactionFee") BigDecimal fee, @RequestParam("exchangeRate") BigDecimal exchangeRate, @RequestParam(name="targetAmount", required=false) BigDecimal targetAmount, @RequestParam String transactionType){
+	@GetMapping(path="/transactions/helper/calculateSourceAmount")
+	public ResponseEntity<IAjaxResponse> calculateSourceAmount(@RequestParam(name="targetAmount", required=false) BigDecimal sourceAmount, @RequestParam("transactionFee") BigDecimal fee, @RequestParam("exchangeRate") BigDecimal exchangeRate, @RequestParam(name="targetAmount", required=false) BigDecimal targetAmount, @RequestParam String transactionType){
 		IAjaxResponse ajaxResponse = null;
 		
-		ajaxResponse = new SuccessAjaxResponse("results", exchangeInversionManagerService.calculateAmount(sourceAmount, fee, exchangeRate, targetAmount, TransactionType.valueOf(transactionType)));
+		ajaxResponse = new SuccessAjaxResponse("results", exchangeInversionManagerService.calculateSourceAmount(sourceAmount, fee, exchangeRate, TransactionType.valueOf(transactionType)));
+		
+		return ResponseEntity.ok(ajaxResponse);
+	}
+	
+	@GetMapping(path="/transactions/helper/calculateTargetAmount")
+	public ResponseEntity<IAjaxResponse> calculateTargetAmount(@RequestParam(name="sourceAmount", required=false) BigDecimal sourceAmount, @RequestParam("transactionFee") BigDecimal fee, @RequestParam("exchangeRate") BigDecimal exchangeRate, @RequestParam(name="targetAmount", required=false) BigDecimal targetAmount, @RequestParam String transactionType){
+		IAjaxResponse ajaxResponse = null;
+		
+		ajaxResponse = new SuccessAjaxResponse("results", exchangeInversionManagerService.calculateTargetAmount(sourceAmount, fee, exchangeRate, TransactionType.valueOf(transactionType)));
 		
 		return ResponseEntity.ok(ajaxResponse);
 	}

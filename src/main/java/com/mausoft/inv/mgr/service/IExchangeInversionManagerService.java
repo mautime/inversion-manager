@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.mausoft.common.model.DefaultSearchCriteria;
-import com.mausoft.common.model.KeyValue;
 import com.mausoft.common.model.PaginationResult;
 import com.mausoft.common.model.PaginationSearch;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction;
@@ -12,7 +11,8 @@ import com.mausoft.inv.mgr.entity.ExchangeTransaction.TransactionType;
 import com.mausoft.inv.mgr.entity.projection.ExchangeInversionSummary;
 
 public interface IExchangeInversionManagerService {
-	public KeyValue<BigDecimal> calculateAmount(BigDecimal sourceAmount, BigDecimal fees, BigDecimal exchangeRate, BigDecimal targetAmount, TransactionType transactionType);
+	public BigDecimal calculateSourceAmount(BigDecimal targetAmount, BigDecimal fees, BigDecimal exchangeRate, TransactionType transactionType);
+	public BigDecimal calculateTargetAmount(BigDecimal source, BigDecimal fees, BigDecimal exchangeRate, TransactionType transactionType);
 	public ExchangeTransaction getTransaction(long id);
 	public ExchangeTransaction saveTransaction(ExchangeTransaction transaction, TransactionType transactionType);
 	public ExchangeTransaction saveBuyTransaction(ExchangeTransaction transaction);

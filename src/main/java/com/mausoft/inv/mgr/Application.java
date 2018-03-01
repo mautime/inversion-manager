@@ -6,18 +6,22 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import com.mausoft.common.repository.impl.BaseRepository;
+import com.mausoft.inv.mgr.entity.User;
 import com.mausoft.inv.mgr.security.config.ResourceServer;
 import com.mausoft.inv.mgr.util.GlobalParameters;
 
 @SpringBootApplication(scanBasePackages={"com.mausoft.inv.mgr.controller", "com.mausoft.inv.mgr.service", "com.mausoft.inv.mgr.repository.impl"}, scanBasePackageClasses= {ResourceServer.class, GlobalParameters.class})
 @EntityScan(basePackages="com.mausoft.inv.mgr.entity")
 @EnableJpaRepositories(basePackages={"com.mausoft.inv.mgr.repository"}, repositoryBaseClass=BaseRepository.class)
-@EnableJpaAuditing
+@EnableJpaAuditing(auditorAwareRef="jpaAuditorAwareProvider")
 public class Application extends SpringBootServletInitializer {
 	
 	public static void main(String... args) {
@@ -28,6 +32,23 @@ public class Application extends SpringBootServletInitializer {
 	public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet){
 		ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet, "/api/*");
 		return registration;
+	}
+	
+	@Bean("jpaAuditorAwareProvider")
+	public AuditorAware<User> jpaAuditorAwareProvider(){
+		
+		return () -> {
+			User user = null;
+			Authentication authentication = null;
+			
+			authentication = SecurityContextHolder.getContext().getAuthentication();
+			
+			if (authentication != null && authentication.isAuthenticated()) {
+				user = new User((String) authentication.getPrincipal());
+			}
+			
+			return user;
+		};
 	}
 	
 	/*@Override

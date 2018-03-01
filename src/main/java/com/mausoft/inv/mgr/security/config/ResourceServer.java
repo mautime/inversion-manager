@@ -43,7 +43,7 @@ public class ResourceServer extends ResourceServerConfigurerAdapter {
             // use the full name when specifying authority access
             .antMatchers("/api/registerUser").hasAuthority("ROLE_REGISTER")*/
             // restricting all access to /api/** to authenticated users
-            .antMatchers("/api/**").hasAnyRole("ADMIN");
+            .antMatchers("/api/**").authenticated();
     }
 	
     @Override
