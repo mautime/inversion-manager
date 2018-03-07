@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import com.mausoft.common.repository.impl.BaseRepository;
@@ -28,6 +30,11 @@ public class Application extends SpringBootServletInitializer {
 	
 	public static void main(String... args) {
 		SpringApplication.run(Application.class, args);
+	}
+	
+	@Bean("passwordEncoder")
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder(12);
 	}
 	
 	@Bean

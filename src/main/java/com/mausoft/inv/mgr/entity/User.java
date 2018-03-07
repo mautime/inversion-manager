@@ -3,6 +3,7 @@ package com.mausoft.inv.mgr.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 
 import com.mausoft.common.entity.IEntity;
 

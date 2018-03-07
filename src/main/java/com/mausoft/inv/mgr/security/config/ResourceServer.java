@@ -32,7 +32,6 @@ public class ResourceServer extends ResourceServerConfigurerAdapter {
             .cors().and()
             .csrf().disable()
             .requestMatcher(new OAuthRequestedMatcher())
-            .anonymous().disable()
             .authorizeRequests()
             .antMatchers(HttpMethod.OPTIONS).permitAll()
             // when restricting access to 'Roles' you must remove the "ROLE_" part role
@@ -43,7 +42,9 @@ public class ResourceServer extends ResourceServerConfigurerAdapter {
             // use the full name when specifying authority access
             .antMatchers("/api/registerUser").hasAuthority("ROLE_REGISTER")*/
             // restricting all access to /api/** to authenticated users
-            .antMatchers("/api/**").authenticated();
+            .antMatchers(HttpMethod.POST, "/api/profile").anonymous()
+            .antMatchers(HttpMethod.POST, "/api/profile/check/*").anonymous()
+            .antMatchers("/api/inversion/**").authenticated();
     }
 	
     @Override
