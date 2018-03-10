@@ -1,4 +1,4 @@
-package com.mausoft.inv.mgr.repository.impl;
+package com.mausoft.inv.mgr.service.impl;
 
 import java.util.Collections;
 import java.util.List;
@@ -6,11 +6,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.mausoft.common.entity.DefaultKeyValueEntity;
 import com.mausoft.inv.mgr.repository.IExchangeSymbolRepository;
 import com.mausoft.inv.mgr.service.IDataCatalogService;
 
+@Service
 public class DataCatalogService implements IDataCatalogService {
 	@Autowired
 	private IExchangeSymbolRepository exchangeSymbolRepository;

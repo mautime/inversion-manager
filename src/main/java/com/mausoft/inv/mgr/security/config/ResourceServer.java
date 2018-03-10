@@ -1,7 +1,11 @@
 package com.mausoft.inv.mgr.security.config;
 
+import java.util.Arrays;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,23 +17,38 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 @EnableResourceServer
 public class ResourceServer extends ResourceServerConfigurerAdapter {
 	
-	@Bean
+	/*@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
 		return source;
-	}
+	}*/
+	
+	/*@Bean
+	public CorsFilter corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        
+        return new CorsFilter(source);
+	}*/
 	
 	@Override
     public void configure(HttpSecurity http) throws Exception {
 		System.out.println("ResourceServer#configure(HttpSecurity)");
 		http
-            .cors().and()
+            //.cors().and()
             .csrf().disable()
             .requestMatcher(new OAuthRequestedMatcher())
             .authorizeRequests()
@@ -43,7 +62,7 @@ public class ResourceServer extends ResourceServerConfigurerAdapter {
             .antMatchers("/api/registerUser").hasAuthority("ROLE_REGISTER")*/
             // restricting all access to /api/** to authenticated users
             .antMatchers(HttpMethod.POST, "/api/profile").anonymous()
-            .antMatchers(HttpMethod.POST, "/api/profile/check/*").anonymous()
+            .antMatchers(HttpMethod.GET, "/api/profile/check/*").anonymous()
             .antMatchers("/api/inversion/**").authenticated();
     }
 	
@@ -52,7 +71,6 @@ public class ResourceServer extends ResourceServerConfigurerAdapter {
     		System.out.println("ResourceServer#configure(ResourceServerSecurityConfigurer)");
 		resources.resourceId("resource");
 	}
-
 
 	private static class OAuthRequestedMatcher implements RequestMatcher {
         public boolean matches(HttpServletRequest request) {
@@ -64,5 +82,29 @@ public class ResourceServer extends ResourceServerConfigurerAdapter {
                 return isApi;
             } else return false;
         }
+    }
+	
+	@Bean
+    public FilterRegistrationBean corsFilterRegistrationBean() {
+        FilterRegistrationBean bean = new FilterRegistrationBean(corsFilter());
+        
+        bean.setOrder(SecurityProperties.DEFAULT_FILTER_ORDER);
+        
+        return bean;
+    }
+	
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("OPTIONS");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("DELETE");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 }

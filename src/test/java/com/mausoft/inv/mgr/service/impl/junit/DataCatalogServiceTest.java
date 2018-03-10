@@ -19,8 +19,8 @@ import com.mausoft.common.entity.DefaultKeyValueEntity;
 import com.mausoft.inv.mgr.entity.ExchangeSymbol;
 import com.mausoft.inv.mgr.entity.ExchangeSymbolType;
 import com.mausoft.inv.mgr.repository.IExchangeSymbolRepository;
-import com.mausoft.inv.mgr.repository.impl.DataCatalogService;
 import com.mausoft.inv.mgr.service.IDataCatalogService;
+import com.mausoft.inv.mgr.service.impl.DataCatalogService;
 
 @RunWith(SpringRunner.class)
 public class DataCatalogServiceTest {
