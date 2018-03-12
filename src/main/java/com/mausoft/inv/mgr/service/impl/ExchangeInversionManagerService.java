@@ -16,6 +16,7 @@ import com.mausoft.common.model.DefaultSearchCriteria;
 import com.mausoft.common.model.KeyValue;
 import com.mausoft.common.model.PaginationResult;
 import com.mausoft.common.model.PaginationSearch;
+import com.mausoft.common.model.PaginationSearch.SortDirection;
 import com.mausoft.common.service.ISpringSecurityService;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction.TransactionType;
@@ -101,6 +102,10 @@ public class ExchangeInversionManagerService implements IExchangeInversionManage
 	public <T extends DefaultSearchCriteria> PaginationResult<ExchangeTransaction> search(PaginationSearch<T> paginationSearch){
 		paginationSearch.getSearchCriteria().setCreatedBy(springSecurityService.getCurrentUser());
 		
+		if (paginationSearch != null) {
+			paginationSearch.setSort(StringUtils.isNotBlank(paginationSearch.getSort()) ? paginationSearch.getSort() : "transactionDate");
+			paginationSearch.setDir(paginationSearch.getDir() != null ? paginationSearch.getDir() : SortDirection.DESC);
+		}
 		return exchangeTransactionRepository.search(paginationSearch);
 	}
 	

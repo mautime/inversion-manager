@@ -40,6 +40,7 @@ public class ExchangeTransactionCustomRepository implements IExchangeTransaction
 		return results;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private <T extends DefaultSearchCriteria> Specification<ExchangeTransaction> _processExchangeTransactionSearchCriteria(T searchCriteria){
 		Specifications<ExchangeTransaction> specCriteria = null;
 		

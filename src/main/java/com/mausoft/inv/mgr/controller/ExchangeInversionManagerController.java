@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mausoft.common.model.DefaultSearchCriteria;
 import com.mausoft.common.model.IAjaxResponse;
 import com.mausoft.common.model.PaginationSearch;
+import com.mausoft.common.model.PaginationSearch.SortDirection;
 import com.mausoft.common.model.SuccessAjaxResponse;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction.TransactionType;
@@ -43,11 +44,11 @@ public class ExchangeInversionManagerController {
 	}
 	
 	@GetMapping(path="/transactions")
-	public ResponseEntity<IAjaxResponse> searchTransactions(@RequestParam int max, @RequestParam int offset, @ModelAttribute DefaultSearchCriteria searchCriteria){
+	public ResponseEntity<IAjaxResponse> searchTransactions(@RequestParam int max, @RequestParam int offset, @RequestParam(required=false) String sort, @RequestParam(required=false) SortDirection dir, @ModelAttribute DefaultSearchCriteria searchCriteria){
 		PaginationSearch<DefaultSearchCriteria> paginationSearch = null;
 		IAjaxResponse ajaxResponse = null;
 		
-		paginationSearch = new PaginationSearch<>(max, offset);
+		paginationSearch = new PaginationSearch<>(max, offset, sort, dir);
 		ajaxResponse = new SuccessAjaxResponse();
 		
 		paginationSearch.setSearchCriteria(searchCriteria);
