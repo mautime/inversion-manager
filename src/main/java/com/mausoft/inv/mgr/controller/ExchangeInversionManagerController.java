@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mausoft.common.model.DefaultSearchCriteria;
 import com.mausoft.common.model.IAjaxResponse;
 import com.mausoft.common.model.PaginationSearch;
 import com.mausoft.common.model.PaginationSearch.SortDirection;
 import com.mausoft.common.model.SuccessAjaxResponse;
+import com.mausoft.inv.mgr.ExchangeTransactionSearchCriteria;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction.TransactionType;
 import com.mausoft.inv.mgr.service.IExchangeInversionManagerService;
@@ -44,8 +44,8 @@ public class ExchangeInversionManagerController {
 	}
 	
 	@GetMapping(path="/transactions")
-	public ResponseEntity<IAjaxResponse> searchTransactions(@RequestParam int max, @RequestParam int offset, @RequestParam(required=false) String sort, @RequestParam(required=false) SortDirection dir, @ModelAttribute DefaultSearchCriteria searchCriteria){
-		PaginationSearch<DefaultSearchCriteria> paginationSearch = null;
+	public ResponseEntity<IAjaxResponse> searchTransactions(@RequestParam int max, @RequestParam int offset, @RequestParam(required=false) String sort, @RequestParam(required=false) SortDirection dir, @ModelAttribute ExchangeTransactionSearchCriteria searchCriteria){
+		PaginationSearch<ExchangeTransactionSearchCriteria> paginationSearch = null;
 		IAjaxResponse ajaxResponse = null;
 		
 		paginationSearch = new PaginationSearch<>(max, offset, sort, dir);

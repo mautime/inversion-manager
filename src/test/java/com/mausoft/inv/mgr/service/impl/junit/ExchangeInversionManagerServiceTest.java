@@ -14,9 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.mausoft.common.model.DefaultSearchCriteria;
 import com.mausoft.common.model.PaginationResult;
 import com.mausoft.common.model.PaginationSearch;
+import com.mausoft.inv.mgr.ExchangeTransactionSearchCriteria;
 import com.mausoft.inv.mgr.entity.ExchangeSymbol;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction.TransactionType;
@@ -45,7 +45,7 @@ public class ExchangeInversionManagerServiceTest {
 	private ExchangeTransaction preLoadedTransaction;
 	private ExchangeTransaction buyTransaction;
 	private ExchangeTransaction sellTransaction;
-	private PaginationSearch<DefaultSearchCriteria> paginationSearch;
+	private PaginationSearch<ExchangeTransactionSearchCriteria> paginationSearch;
 	
 	@Autowired
 	private IExchangeTransactionRepository exchangeTransactionRepository;
@@ -64,7 +64,7 @@ public class ExchangeInversionManagerServiceTest {
 		sellTargetAmount = new BigDecimal(0.0480360841D);
 		buyTransaction = new ExchangeTransaction();
 		sellTransaction = new ExchangeTransaction();
-		paginationSearch = new PaginationSearch<DefaultSearchCriteria>();
+		paginationSearch = new PaginationSearch<ExchangeTransactionSearchCriteria>();
 		
 		bitcoinSymbol = exchangeSymbolRepository.saveAndFlush(new ExchangeSymbol("BTC", "Bitcoin", null));
 		

@@ -18,6 +18,7 @@ import com.mausoft.common.model.PaginationResult;
 import com.mausoft.common.model.PaginationSearch;
 import com.mausoft.common.model.PaginationSearch.SortDirection;
 import com.mausoft.common.service.ISpringSecurityService;
+import com.mausoft.inv.mgr.ExchangeTransactionSearchCriteria;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction.TransactionType;
 import com.mausoft.inv.mgr.entity.projection.ExchangeInversionSummary;
@@ -99,7 +100,7 @@ public class ExchangeInversionManagerService implements IExchangeInversionManage
 		return result;
 	}
 	
-	public <T extends DefaultSearchCriteria> PaginationResult<ExchangeTransaction> search(PaginationSearch<T> paginationSearch){
+	public PaginationResult<ExchangeTransaction> search(PaginationSearch<ExchangeTransactionSearchCriteria> paginationSearch){
 		paginationSearch.getSearchCriteria().setCreatedBy(springSecurityService.getCurrentUser());
 		
 		if (paginationSearch != null) {

@@ -1,5 +1,8 @@
 package com.mausoft.common.util;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 
@@ -20,6 +23,18 @@ public abstract class SpecificationsBuilder {
 	
 	public static final <T extends IEntity> Specification<T> like(String propertyName, String value, Class<T> clazz){
 		return (r, q, c) -> c.like(_buildPropertyPath(r, propertyName), value);
+	}
+	
+	public static final <T extends IEntity, V> Specification<T> in(String propertyName, List<V> values, Class<T> clazz){
+		return (r, q, c) -> _buildPropertyPath(r, propertyName).in(values);
+	}
+	
+	public static final <T extends IEntity> Specification<T> gte(String propertyName, Date value, Class<T> clazz){
+		return (r, q, c) -> c.greaterThanOrEqualTo(_buildPropertyPath(r, propertyName).as(Date.class), value);
+	}
+	
+	public static final <T extends IEntity> Specification<T> lte(String propertyName, Date value, Class<T> clazz){
+		return (r, q, c) -> c.lessThanOrEqualTo(_buildPropertyPath(r, propertyName).as(Date.class), value);
 	}
 	
 	private static final <T extends IEntity> Path<String> _buildPropertyPath(Root<T> root, String propertyName){

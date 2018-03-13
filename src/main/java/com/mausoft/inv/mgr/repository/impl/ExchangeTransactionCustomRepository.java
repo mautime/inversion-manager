@@ -7,12 +7,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.mausoft.common.model.DefaultSearchCriteria;
 import com.mausoft.common.model.PaginationResult;
 import com.mausoft.common.model.PaginationSearch;
 import com.mausoft.common.util.JpaRepositoryUtils;
 import com.mausoft.common.util.SpecificationsBuilder;
+import com.mausoft.inv.mgr.ExchangeTransactionSearchCriteria;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction;
 import com.mausoft.inv.mgr.repository.IExchangeTransactionCustomRepository;
 import com.mausoft.inv.mgr.repository.IExchangeTransactionRepository;
@@ -32,7 +34,7 @@ public class ExchangeTransactionCustomRepository implements IExchangeTransaction
 		if (paginationSearch != null) {
 			pageRequest = JpaRepositoryUtils.buildPageRequest(paginationSearch);
 			
-			if ((pageResults = exchangeTransactionRepository.findAll(_processExchangeTransactionSearchCriteria(paginationSearch.getSearchCriteria()), pageRequest)) != null) {
+			if ((pageResults = exchangeTransactionRepository.findAll(_processExchangeTransactionSearchCriteria((ExchangeTransactionSearchCriteria) paginationSearch.getSearchCriteria()), pageRequest)) != null) {
 				results = new PaginationResult<>(pageResults.getContent(), pageResults.getTotalElements());
 			}
 		}
@@ -41,11 +43,23 @@ public class ExchangeTransactionCustomRepository implements IExchangeTransaction
 	}
 	
 	@SuppressWarnings("unchecked")
-	private <T extends DefaultSearchCriteria> Specification<ExchangeTransaction> _processExchangeTransactionSearchCriteria(T searchCriteria){
+	private Specification<ExchangeTransaction> _processExchangeTransactionSearchCriteria(ExchangeTransactionSearchCriteria searchCriteria){
 		Specifications<ExchangeTransaction> specCriteria = null;
 		
 		if (searchCriteria != null) {
 			specCriteria = Specifications.where(SpecificationsBuilder.equal(1, 1));
+			
+			if (!CollectionUtils.isEmpty(searchCriteria.getSymbols())) {
+				specCriteria = specCriteria.and(SpecificationsBuilder.in("symbol", searchCriteria.getSymbols(), ExchangeTransaction.class));
+			}
+			
+			if (searchCriteria.getTransactionDateFrom() != null) {
+				specCriteria = specCriteria.and(SpecificationsBuilder.gte("transactionDate", searchCriteria.getTransactionDateFrom(), ExchangeTransaction.class));
+			}
+			
+			if (searchCriteria.getTransactionDateTo() != null) {
+				specCriteria = specCriteria.and(SpecificationsBuilder.lte("transactionDate", searchCriteria.getTransactionDateTo(), ExchangeTransaction.class));
+			}
 			
 			if (StringUtils.isNotBlank(searchCriteria.getCreatedBy())) {
 				specCriteria = specCriteria.and(SpecificationsBuilder.like("createdBy.email", searchCriteria.getCreatedBy(), ExchangeTransaction.class));
