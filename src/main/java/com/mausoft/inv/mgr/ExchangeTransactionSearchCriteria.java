@@ -6,15 +6,24 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.mausoft.common.model.DefaultSearchCriteria;
+import com.mausoft.inv.mgr.entity.ExchangeTransaction.TransactionType;
 
 public class ExchangeTransactionSearchCriteria extends DefaultSearchCriteria {
 	private static final long serialVersionUID = -1936355106563016844L;
 	
+	private TransactionType transactionType;
 	@DateTimeFormat(pattern="MM-dd-yyyy")
 	private Date transactionDateFrom;
 	@DateTimeFormat(pattern="MM-dd-yyyy")
 	private Date transactionDateTo;
 	private List<String> symbols;
+	
+	public TransactionType getTransactionType() {
+		return transactionType;
+	}
+	public void setTransactionType(TransactionType aTransactionType) {
+		transactionType = aTransactionType;
+	}
 	public Date getTransactionDateFrom() {
 		return transactionDateFrom;
 	}

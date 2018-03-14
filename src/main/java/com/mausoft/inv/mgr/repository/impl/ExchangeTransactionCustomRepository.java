@@ -49,6 +49,10 @@ public class ExchangeTransactionCustomRepository implements IExchangeTransaction
 		if (searchCriteria != null) {
 			specCriteria = Specifications.where(SpecificationsBuilder.equal(1, 1));
 			
+			if (searchCriteria.getTransactionType() != null) {
+				specCriteria = specCriteria.and(SpecificationsBuilder.equal("transactionType", searchCriteria.getTransactionType(), ExchangeTransaction.class));
+			}
+			
 			if (!CollectionUtils.isEmpty(searchCriteria.getSymbols())) {
 				specCriteria = specCriteria.and(SpecificationsBuilder.in("symbol", searchCriteria.getSymbols(), ExchangeTransaction.class));
 			}
