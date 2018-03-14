@@ -1,4 +1,4 @@
-package com.mausoft.inv.mgr;
+package com.mausoft.inv.mgr.model;
 
 import java.util.Date;
 import java.util.List;

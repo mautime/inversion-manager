@@ -16,11 +16,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.mausoft.common.model.PaginationResult;
 import com.mausoft.common.model.PaginationSearch;
-import com.mausoft.inv.mgr.ExchangeTransactionSearchCriteria;
 import com.mausoft.inv.mgr.entity.ExchangeSymbol;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction.TransactionType;
 import com.mausoft.inv.mgr.junit.ApplicationTest;
+import com.mausoft.inv.mgr.model.ExchangeTransactionSearchCriteria;
 import com.mausoft.inv.mgr.repository.IExchangeSymbolRepository;
 import com.mausoft.inv.mgr.repository.IExchangeTransactionRepository;
 import com.mausoft.inv.mgr.service.IExchangeInversionManagerService;

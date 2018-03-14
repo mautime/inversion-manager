@@ -21,9 +21,9 @@ import com.mausoft.common.model.IAjaxResponse;
 import com.mausoft.common.model.PaginationSearch;
 import com.mausoft.common.model.PaginationSearch.SortDirection;
 import com.mausoft.common.model.SuccessAjaxResponse;
-import com.mausoft.inv.mgr.ExchangeTransactionSearchCriteria;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction.TransactionType;
+import com.mausoft.inv.mgr.model.ExchangeTransactionSearchCriteria;
 import com.mausoft.inv.mgr.service.IExchangeInversionManagerService;
 
 @RestController

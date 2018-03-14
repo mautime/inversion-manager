@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.mausoft.common.model.PaginationResult;
 import com.mausoft.common.model.PaginationSearch;
-import com.mausoft.inv.mgr.ExchangeTransactionSearchCriteria;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction.TransactionType;
 import com.mausoft.inv.mgr.entity.projection.ExchangeInversionSummary;
+import com.mausoft.inv.mgr.model.ExchangeTransactionSearchCriteria;
 
 public interface IExchangeInversionManagerService {
 	public BigDecimal calculateSourceAmount(BigDecimal targetAmount, BigDecimal fees, BigDecimal exchangeRate, TransactionType transactionType);

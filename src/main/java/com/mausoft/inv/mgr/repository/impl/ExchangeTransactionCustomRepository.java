@@ -14,8 +14,8 @@ import com.mausoft.common.model.PaginationResult;
 import com.mausoft.common.model.PaginationSearch;
 import com.mausoft.common.util.JpaRepositoryUtils;
 import com.mausoft.common.util.SpecificationsBuilder;
-import com.mausoft.inv.mgr.ExchangeTransactionSearchCriteria;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction;
+import com.mausoft.inv.mgr.model.ExchangeTransactionSearchCriteria;
 import com.mausoft.inv.mgr.repository.IExchangeTransactionCustomRepository;
 import com.mausoft.inv.mgr.repository.IExchangeTransactionRepository;
 

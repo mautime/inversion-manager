@@ -18,10 +18,10 @@ import com.mausoft.common.model.PaginationResult;
 import com.mausoft.common.model.PaginationSearch;
 import com.mausoft.common.model.PaginationSearch.SortDirection;
 import com.mausoft.common.service.ISpringSecurityService;
-import com.mausoft.inv.mgr.ExchangeTransactionSearchCriteria;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction;
 import com.mausoft.inv.mgr.entity.ExchangeTransaction.TransactionType;
 import com.mausoft.inv.mgr.entity.projection.ExchangeInversionSummary;
+import com.mausoft.inv.mgr.model.ExchangeTransactionSearchCriteria;
 import com.mausoft.inv.mgr.repository.IExchangeTransactionRepository;
 import com.mausoft.inv.mgr.service.IExchangeInversionManagerService;
 
