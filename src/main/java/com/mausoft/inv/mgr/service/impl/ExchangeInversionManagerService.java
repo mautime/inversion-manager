@@ -164,6 +164,10 @@ public class ExchangeInversionManagerService implements IExchangeInversionManage
 		return results;
 	}
 	
+	public void deleteTransaction(Long id) {
+		exchangeTransactionRepository.delete(id);
+	}
+	
 	private KeyValue<BigDecimal> _calculateAmount(BigDecimal sourceAmount, BigDecimal fees, BigDecimal exchangeRate, BigDecimal targetAmount, TransactionType type) {
 		BigDecimal amt = null;
 		BigDecimal fee = null;

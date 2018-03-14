@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -85,6 +86,13 @@ public class ExchangeInversionManagerController {
 		ajaxResponse = new SuccessAjaxResponse("results", exchangeInversionManagerService.calculateTargetAmount(sourceAmount, fee, exchangeRate, TransactionType.valueOf(transactionType)));
 		
 		return ResponseEntity.ok(ajaxResponse);
+	}
+	
+	@DeleteMapping(path="/transactions/{id}")
+	public ResponseEntity<IAjaxResponse> deleteTransaction(@PathVariable long id){
+		exchangeInversionManagerService.deleteTransaction(id);
+		
+		return ResponseEntity.ok(new SuccessAjaxResponse("results", "success"));
 	}
 	
 	@GetMapping(path="/summary")

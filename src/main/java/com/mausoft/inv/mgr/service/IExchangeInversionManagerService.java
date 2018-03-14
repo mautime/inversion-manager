@@ -20,4 +20,5 @@ public interface IExchangeInversionManagerService {
 	public PaginationResult<ExchangeTransaction> search(PaginationSearch<ExchangeTransactionSearchCriteria> paginationSearch);
 	public List<ExchangeInversionSummary> getInversionSummary();
 	public BigDecimal getInversionTotal();
+	public void deleteTransaction(Long id);
 }
