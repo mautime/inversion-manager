@@ -35,7 +35,7 @@ public class ExchangeInversionManagerService implements IExchangeInversionManage
 	protected IExchangeTransactionRepository exchangeTransactionRepository;
 	
 	public ExchangeTransaction getTransaction(long id) {
-		return exchangeTransactionRepository.findByIdAndCreatedBy(id, springSecurityService.getCurrentUser());
+		return exchangeTransactionRepository.findByIdAndCreatedBy_email(id, springSecurityService.getCurrentUser());
 	}
 	
 	@Override
