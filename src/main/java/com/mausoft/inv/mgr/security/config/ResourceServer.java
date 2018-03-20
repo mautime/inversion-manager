@@ -1,7 +1,5 @@
 package com.mausoft.inv.mgr.security.config;
 
-import java.util.Arrays;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -15,10 +13,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 @EnableResourceServer
