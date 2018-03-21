@@ -27,7 +27,7 @@ public class ProfileService implements IProfileService {
 			throw new Exception();
 		}
 		
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		//user.setPassword(passwordEncoder.encode(user.getPassword()));
 		
 		result = userRepository.saveAndFlush(user);
 		
@@ -35,12 +35,12 @@ public class ProfileService implements IProfileService {
 	}
 
 	@Override
-	public User getProfile(String email) {
-		return userRepository.findOne(email);
+	public User getProfile(String username) {
+		return userRepository.findByUsername(username);
 	}
 	
 	@Override
-	public boolean checkExisting(String email) {
-		return StringUtils.isBlank(email) || userRepository.countByEmail(email) > 0;
+	public boolean checkExisting(String username) {
+		return StringUtils.isBlank(username) || userRepository.countByUsername(username) > 0;
 	}
 }

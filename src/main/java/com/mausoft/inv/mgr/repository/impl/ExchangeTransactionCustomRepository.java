@@ -1,6 +1,5 @@
 package com.mausoft.inv.mgr.repository.impl;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -65,8 +64,8 @@ public class ExchangeTransactionCustomRepository implements IExchangeTransaction
 				specCriteria = specCriteria.and(SpecificationsBuilder.lte("transactionDate", searchCriteria.getTransactionDateTo(), ExchangeTransaction.class));
 			}
 			
-			if (StringUtils.isNotBlank(searchCriteria.getCreatedBy())) {
-				specCriteria = specCriteria.and(SpecificationsBuilder.like("createdBy.email", searchCriteria.getCreatedBy(), ExchangeTransaction.class));
+			if (searchCriteria.getCreatedBy() != null) {
+				specCriteria = specCriteria.and(SpecificationsBuilder.equal("createdBy.id", searchCriteria.getCreatedBy(), ExchangeTransaction.class));
 			}
 		}
 		

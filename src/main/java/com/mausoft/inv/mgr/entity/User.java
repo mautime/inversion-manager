@@ -1,25 +1,26 @@
 package com.mausoft.inv.mgr.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
 
-import com.mausoft.common.entity.IEntity;
+import com.mausoft.common.entity.AbstractDefaultEntity;
 
 @Entity
-public class User implements IEntity {
+public class User extends AbstractDefaultEntity {
 	private static final long serialVersionUID = 1734133062276268705L;
 	
-	@Id
-	@Column(columnDefinition="VARCHAR")
+	private String username;
 	private String email;
 	private String firstName;
 	private String lastName;
-	private String password;
 	
 	public User() {}
 	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String aUsername) {
+		username = aUsername;
+	}
 	public User(String aEmail) {
 		email = aEmail;
 	}
@@ -40,11 +41,5 @@ public class User implements IEntity {
 	}
 	public void setLastName(String aLastName) {
 		lastName = aLastName;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String aPassword) {
-		password = aPassword;
 	}
 }

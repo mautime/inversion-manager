@@ -13,8 +13,8 @@ import com.mausoft.inv.mgr.entity.projection.ExchangeInversionSummary;
 @Repository("exchangeTransactionRepository")
 public interface IExchangeTransactionRepository extends IBaseRepository<ExchangeTransaction, Long>, IExchangeTransactionCustomRepository{
 	
-	public ExchangeTransaction findByIdAndCreatedBy_email(long id, String createdBy);
+	public ExchangeTransaction findByIdAndCreatedBy_Id(long id, long createdBy);
 	
 	@Query(name="getExchangeInversionSummary", nativeQuery=true)
-	public List<ExchangeInversionSummary> getExchangeInversionSummary(@Param("createdBy") String createdBy);
+	public List<ExchangeInversionSummary> getExchangeInversionSummary(@Param("createdBy") Long createdBy);
 }

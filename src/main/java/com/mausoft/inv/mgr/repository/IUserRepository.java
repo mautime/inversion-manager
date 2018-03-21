@@ -6,6 +6,7 @@ import com.mausoft.common.repository.IBaseRepository;
 import com.mausoft.inv.mgr.entity.User;
 
 @Repository("userRepository")
-public interface IUserRepository extends IBaseRepository<User, String> {
-	public Long countByEmail(String email);
+public interface IUserRepository extends IBaseRepository<User, Long> {
+	public Long countByUsername(String email);
+	public User findByUsername(String username);
 }

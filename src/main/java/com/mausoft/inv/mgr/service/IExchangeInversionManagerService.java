@@ -13,7 +13,7 @@ import com.mausoft.inv.mgr.model.ExchangeTransactionSearchCriteria;
 public interface IExchangeInversionManagerService {
 	public BigDecimal calculateSourceAmount(BigDecimal targetAmount, BigDecimal fees, BigDecimal exchangeRate, TransactionType transactionType);
 	public BigDecimal calculateTargetAmount(BigDecimal source, BigDecimal fees, BigDecimal exchangeRate, TransactionType transactionType);
-	public ExchangeTransaction getTransaction(long id);
+	public ExchangeTransaction getTransaction(long transctionId);
 	public ExchangeTransaction saveTransaction(ExchangeTransaction transaction, TransactionType transactionType);
 	public ExchangeTransaction saveBuyTransaction(ExchangeTransaction transaction);
 	public ExchangeTransaction saveSellTransaction(ExchangeTransaction transaction);

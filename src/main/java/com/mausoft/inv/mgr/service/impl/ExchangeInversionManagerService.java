@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.mausoft.common.model.DefaultSearchCriteria;
 import com.mausoft.common.model.KeyValue;
 import com.mausoft.common.model.PaginationResult;
 import com.mausoft.common.model.PaginationSearch;
@@ -34,8 +33,8 @@ public class ExchangeInversionManagerService implements IExchangeInversionManage
 	@Autowired
 	protected IExchangeTransactionRepository exchangeTransactionRepository;
 	
-	public ExchangeTransaction getTransaction(long id) {
-		return exchangeTransactionRepository.findByIdAndCreatedBy_email(id, springSecurityService.getCurrentUser());
+	public ExchangeTransaction getTransaction(long transactionId) {
+		return exchangeTransactionRepository.findByIdAndCreatedBy_Id(transactionId, springSecurityService.getUser().getId());
 	}
 	
 	@Override
@@ -101,9 +100,9 @@ public class ExchangeInversionManagerService implements IExchangeInversionManage
 	}
 	
 	public PaginationResult<ExchangeTransaction> search(PaginationSearch<ExchangeTransactionSearchCriteria> paginationSearch){
-		paginationSearch.getSearchCriteria().setCreatedBy(springSecurityService.getCurrentUser());
 		
 		if (paginationSearch != null) {
+			paginationSearch.getSearchCriteria().setCreatedBy(springSecurityService.getUser().getId());
 			paginationSearch.setSort(StringUtils.isNotBlank(paginationSearch.getSort()) ? paginationSearch.getSort() : "transactionDate");
 			paginationSearch.setDir(paginationSearch.getDir() != null ? paginationSearch.getDir() : SortDirection.DESC);
 		}
@@ -134,7 +133,7 @@ public class ExchangeInversionManagerService implements IExchangeInversionManage
 		List<ExchangeInversionSummary> transactionsSummary = null;
 		List<ExchangeInversionSummary> results = null;
 		
-		if (!CollectionUtils.isEmpty(transactionsSummary = exchangeTransactionRepository.getExchangeInversionSummary(springSecurityService.getCurrentUser()))) {
+		if (!CollectionUtils.isEmpty(transactionsSummary = exchangeTransactionRepository.getExchangeInversionSummary(springSecurityService.getUser().getId()))) {
 			exchangeSymbols = transactionsSummary.stream().map(e -> e.getExchangeSymbol()).distinct().collect(Collectors.toList());
 			results = new ArrayList<>(exchangeSymbols.size());
 			
