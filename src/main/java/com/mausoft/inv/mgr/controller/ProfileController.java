@@ -27,13 +27,8 @@ public class ProfileController {
 		return ResponseEntity.ok(new SuccessAjaxResponse("results", profileService.register(user)));
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<IAjaxResponse> getProfile(String id){
-		return ResponseEntity.ok(new SuccessAjaxResponse("results", profileService.getProfile(id)));
-	}
-	
-	@GetMapping(path="/check/{id:.+}")
-	public ResponseEntity<IAjaxResponse> checkExisting(@PathVariable String id){
-		return ResponseEntity.ok(new SuccessAjaxResponse("results", profileService.checkExisting(id)));
+	@GetMapping(path="/{username}/exists")
+	public ResponseEntity<IAjaxResponse> checkExisting(@PathVariable String username){
+		return ResponseEntity.ok(new SuccessAjaxResponse("results", profileService.checkExisting(username)));
 	}
 }

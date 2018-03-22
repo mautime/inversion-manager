@@ -34,7 +34,7 @@ public class ResourceServer extends WebSecurityConfigurerAdapter {
         		.configure(http)
         		.requestMatcher(new OAuthRequestedMatcher())
         		.authorizeRequests()
-                .antMatchers("/api/inversion/**").authenticated();
+                .antMatchers("/api/**/*").authenticated();
     }
 
 	private static class OAuthRequestedMatcher implements RequestMatcher {

@@ -21,6 +21,7 @@ import com.mausoft.common.repository.impl.BaseRepository;
 import com.mausoft.common.service.ISpringSecurityService;
 import com.mausoft.common.service.impl.SpringSecurityService;
 import com.mausoft.inv.mgr.entity.User;
+import com.mausoft.inv.mgr.repository.IUserRepository;
 import com.mausoft.inv.mgr.security.config.ResourceServer;
 import com.mausoft.inv.mgr.util.GlobalParameters;
 
@@ -63,7 +64,7 @@ public class Application extends SpringBootServletInitializer {
 	}
 	
 	@Bean("jpaAuditorAwareProvider")
-	public AuditorAware<User> jpaAuditorAwareProvider(){
+	public AuditorAware<User> jpaAuditorAwareProvider(IUserRepository userRepository){
 		
 		return () -> {
 			User user = null;
@@ -72,7 +73,7 @@ public class Application extends SpringBootServletInitializer {
 			authentication = SecurityContextHolder.getContext().getAuthentication();
 			
 			if (authentication != null && authentication.isAuthenticated()) {
-				user = new User((String) authentication.getPrincipal());
+				user = userRepository.findByUsername((String) authentication.getName());
 			}
 			
 			return user;

@@ -15,14 +15,15 @@ public class User extends AbstractDefaultEntity {
 	
 	public User() {}
 	
+	public User(String aUsername) {
+		username = aUsername;
+	}
+	
 	public String getUsername() {
 		return username;
 	}
 	public void setUsername(String aUsername) {
 		username = aUsername;
-	}
-	public User(String aEmail) {
-		email = aEmail;
 	}
 	public String getEmail() {
 		return email;
